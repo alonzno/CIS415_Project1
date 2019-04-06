@@ -455,12 +455,12 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "reader.l"
-#line 2 "reader.l"
+#line 1 "src/part1.l"
+#line 2 "src/part1.l"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "./include/ll.h"
+#include "../include/ll_1.h"
 
 struct dub_ll **head;
 
@@ -676,7 +676,7 @@ YY_DECL
 		}
 
 	{
-#line 13 "reader.l"
+#line 13 "src/part1.l"
 
 #line 682 "lex.yy.c"
 
@@ -737,7 +737,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "reader.l"
+#line 14 "src/part1.l"
 {
                        dub_ll_push_new(head, yytext);
                        BEGIN args;
@@ -745,14 +745,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 18 "reader.l"
+#line 18 "src/part1.l"
 {
                        BEGIN quote;
                    }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 21 "reader.l"
+#line 21 "src/part1.l"
 {
                                 dub_ll_set_args(head, yytext);
                             }
@@ -760,27 +760,27 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 24 "reader.l"
+#line 24 "src/part1.l"
 {
                        BEGIN INITIAL;
                    }
 	YY_BREAK
 case YY_STATE_EOF(args):
-#line 27 "reader.l"
+#line 27 "src/part1.l"
 {
                        BEGIN INITIAL;
                    }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 30 "reader.l"
+#line 30 "src/part1.l"
 {
                                  dub_ll_set_args(head, yytext);
                              }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 33 "reader.l"
+#line 33 "src/part1.l"
 {
                        BEGIN args;
                     }
@@ -788,12 +788,12 @@ YY_RULE_SETUP
 case 7:
 /* rule 7 can match eol */
 YY_RULE_SETUP
-#line 36 "reader.l"
+#line 36 "src/part1.l"
 {}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 37 "reader.l"
+#line 37 "src/part1.l"
 { 
        fprintf(stderr, "Lexically erroneous command\n");
        exit(3);
@@ -801,7 +801,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 42 "reader.l"
+#line 42 "src/part1.l"
 ECHO;
 	YY_BREAK
 #line 808 "lex.yy.c"
@@ -1800,7 +1800,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 42 "reader.l"
+#line 42 "src/part1.l"
 
 
 
@@ -1808,8 +1808,8 @@ int yywrap(void) {}
 
 int main(int argc, char **argv) {
     extern FILE *yyin;
-    if (argc < 2) {
-        fprintf(stderr, "No input file provided\n");
+    if (argc != 2) {
+        fprintf(stderr, "Bad Arguments\n");
         exit(1);
     }
 
@@ -1831,9 +1831,12 @@ int main(int argc, char **argv) {
 
     dub_ll_make_arg_dp(head);
     
-    dub_ll_print(head);
+    //dub_ll_print(head);
 
     dub_ll_start(head);
+    
+    dub_ll_free(head);
+    
     return 0;
 }
 
