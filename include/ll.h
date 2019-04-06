@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <sys/types.h>
 //BEGIN helper functions
@@ -63,6 +64,29 @@ void dub_ll_print(struct dub_ll **head) {
         if (tmp -> args != NULL) {
             fprintf(stderr, "\t%s\n", tmp -> args);
         }
+        tmp = tmp -> next;
+    }
+}
+
+void dub_ll_start(struct dub_ll **head) {
+    struct dub_ll *tmp = (*head);
+    pid_t curr_pid;
+    while (tmp != NULL) {
+        curr_pid = fork();
+        if (curr_pid < 0) {
+            //Handle Error
+            exit(1);
+        }
+        if (curr_pid == 0) {
+            execlp(tmp -> prog_name, tmp -> args);
+            exit(-1);
+        }
+        tmp -> pid = curr_pid;
+        tmp = tmp -> next;
+    }
+    tmp = (*head);
+    while (tmp != NULL) {
+        wait(tmp -> pid);
         tmp = tmp -> next;
     }
 }
