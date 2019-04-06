@@ -8,13 +8,17 @@ struct dub_ll **head;
 %}
 
 %x  args
+%x  quote
 
 %%
 [a-zA-Z0-9\-_\/.]+ {
                        dub_ll_push_new(head, yytext);
                        BEGIN args;
                    }
-<args>[a-zA-Z0-9\-_\/. \"]+ {
+<args>[\"]          {
+                       BEGIN quote;
+                   }
+<args>[a-zA-Z0-9\-_\/.]+ {
                                 dub_ll_set_args(head, yytext);
                             }
 <args>\n           {
@@ -23,7 +27,17 @@ struct dub_ll **head;
 <args><<EOF>>      {
                        BEGIN INITIAL;
                    }
-.|\n {}
+<quote>[a-zA-Z0-9\-_\/. \']+ {
+                                 dub_ll_set_args(head, yytext);
+                             }
+<quote>[\"]         {
+                       BEGIN args;
+                   }
+\n {}
+.  { 
+       fprintf(stderr, "Lexically erroneous command\n");
+       exit(3);
+   }
 
 %%
 
@@ -51,8 +65,8 @@ int main(int argc, char **argv) {
     
     fprintf(stdout, "\n");
 
-    //dub_ll_print(head);
-    dub_ll_start(head);
+    dub_ll_print(head);
+    //dub_ll_start(head);
     return 0;
 }
 
