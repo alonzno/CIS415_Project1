@@ -783,7 +783,7 @@ YY_RULE_SETUP
 #line 33 "reader.l"
 {
                        BEGIN args;
-                   }
+                    }
 	YY_BREAK
 case 7:
 /* rule 7 can match eol */
@@ -1828,8 +1828,12 @@ int main(int argc, char **argv) {
     
     fprintf(stdout, "\n");
 
+
+    dub_ll_make_arg_dp(head);
+    
     dub_ll_print(head);
-    //dub_ll_start(head);
+
+    dub_ll_start(head);
     return 0;
 }
 

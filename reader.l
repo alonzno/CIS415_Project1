@@ -32,7 +32,7 @@ struct dub_ll **head;
                              }
 <quote>[\"]         {
                        BEGIN args;
-                   }
+                    }
 \n {}
 .  { 
        fprintf(stderr, "Lexically erroneous command\n");
@@ -65,8 +65,12 @@ int main(int argc, char **argv) {
     
     fprintf(stdout, "\n");
 
+
+    dub_ll_make_arg_dp(head);
+    
     dub_ll_print(head);
-    //dub_ll_start(head);
+
+    dub_ll_start(head);
     return 0;
 }
 

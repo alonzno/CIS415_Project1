@@ -111,10 +111,16 @@ void dub_ll_make_arg_dp(struct dub_ll **head) {
         list_len = singly_ll_len(tmp -> arg_list);
         tmp -> args = (char **)malloc(sizeof(char *) * list_len + 2);
         curr_list = (*(tmp -> arg_list));
-        while (curr_list != NULL) {
-            
-        }
+        counter = list_len;
 
+        (tmp -> args)[0] = tmp -> prog_name;
+        (tmp -> args)[list_len+1] = NULL;
+        while (curr_list != NULL) {
+            (tmp -> args)[counter] = curr_list -> arg;
+            counter--;
+            curr_list = curr_list -> next;
+        }
+        tmp = tmp -> next;
     }
 }
 
@@ -128,7 +134,7 @@ void dub_ll_start(struct dub_ll **head) {
             exit(1);
         }
         if (curr_pid == 0) {
-            execlp(tmp -> prog_name, tmp -> args);
+            execvp(tmp -> prog_name, tmp -> args);
             exit(-1);
         }
         tmp -> pid = curr_pid;
